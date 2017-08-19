@@ -41,27 +41,26 @@ class Rotation(IntEnum):
     Left = 3    # 21:00 left wall on "earth"
 
 
-# class BehaviourTypes(IntEnum):
-#     '''
-#     Just enumerate all the behaviour classes. This enum is
-#     available as a class slot Behaviour.BehaviourType
-#     '''
-#     BehItemStorage = 0
-#     BehItemPullPush = 1
-
 
 class CubeTypes(IntEnum):
     '''
     Cube types, "bl" for easier finding
     '''
-    blBedRock = 1
-    blGrass = 2
+    blRock = 1
+    blSoil = 2
     blSand = 3
     blWater = 4
-    # blWood = 5
-    # blBox = 6
-    # blCornFarm = 7
-    # blConveyor = 8
+
+
+class BehComponentRoles(IntEnum):
+    '''
+    1 behaviour = 1 actor component in UE4.
+    '''
+    behBlooming = 100  # this is a trivial testing thing
+    behTemperature = 1
+    behVapors = 2
+    behChemistry = 3
+    behBiomass = 4
 
 
 class ItemTypes(IntEnum):

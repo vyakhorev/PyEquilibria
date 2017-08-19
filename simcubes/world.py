@@ -39,6 +39,12 @@ class cSimWorld:
         new_game_block.world = self
         self.chunks[self.active_chunk_id][new_game_block.gid] = new_game_block
 
+    def get_cube_in_active_chunk(self, cube_gid):
+        #todo: this double lookup is not effective, this would be a frequent call
+        if cube_gid in self.chunks[self.active_chunk_id]:
+            return self.chunks[self.active_chunk_id][cube_gid]
+        return None
+
     def get_neighbour_cube_with_offset_direction(self, cube, direction):
         '''
         Get the neighbour to the cube in the given direction (in the active chunk)
@@ -114,6 +120,21 @@ class cSimWorld:
             for bl in chunk_i.values():
                 s += "\t" + bl.get_debug_string() + "\n"
         return s
+
+    def get_animation_data(self, entity_gid, role):
+        '''
+        Get tuple with data about a cube / tile / any thing that is
+        simulated and inherit from behaviour holder.
+        :param aworld: cWrold entity
+        :param entity_gid: gid of a cube (or other type of entity)
+        :param role: a number that enumerates different layers of
+                     data and animation, en.BehComponentRoles
+        :return: tuple with ordered data for this role
+        '''
+        cube = self.get_cube_in_active_chunk(entity_gid)
+        if cube is None:
+            return ()  # empty animation data
+        return cube.get_animation_data(role)
 
 class cSimCube(cBehaviourHolder):
     '''

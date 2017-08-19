@@ -31,6 +31,8 @@ class cSimulBehaviour(cAsyncThread):
     it becomes inactive (and becomes active when it's possible).
     '''
 
+    behaviour_role = 0  # defines the animation typing
+
     def __init__(self, parent):
         '''
         :param parent: an object from the simulation (a block, a bunch of blocks).
@@ -42,6 +44,14 @@ class cSimulBehaviour(cAsyncThread):
 
     def __repr__(self):
         return "[behaviour of {}][{}]".format(self.parent, super().__repr__())
+
+    def get_animation_data(self):
+        '''
+        Return simulation animation data here in responce to graphical
+        engine query. Implement this in concrete behaviours.
+        :return: tuple, possible with other tuples.
+        '''
+        return ()
 
     def connect_to(self, other_behaviour):
         if not(other_behaviour in self.connected):
@@ -149,13 +159,15 @@ class cBehaviourHolder:
     Holds all the behaviours, exposes their variables and states
     as a single callee.
 
-    С++ code doesn't know about behaviours. but it can read the
-    variables from here. Oh maybe this is not a good idea..
+    С++ code doesn't know about behaviours. But it can read the
+    variables from here with get_animation_data() call.
     '''
 
     def __init__(self):
         self.unique_behaviours = []
+        # services are not used at the moment
         self.behaviours = {}  # by service type, with duplicated references
+        self.behaviours_by_role = {}
 
     def iter_behaviours(self):
         for beh in self.unique_behaviours:
@@ -175,7 +187,10 @@ class cBehaviourHolder:
         # service types).
         if not(behaviour in self.unique_behaviours):
             self.unique_behaviours += [behaviour]
-        # register as a service
+        # register animation role (same enumeration is inside UE4)
+        self.behaviours_by_role[behaviour.behaviour_role] = behaviour
+
+        # register as a service (old and unsused thing for connectivity)
         if not(service_type in self.behaviours):
             self.behaviours[service_type] = []
         if not(behaviour in self.behaviours[service_type]):
@@ -184,6 +199,17 @@ class cBehaviourHolder:
             # duplicates in one service type are not expected
             logger.error('Attempt to add a duplicating behaviour for one service type!')
             raise BaseException('Attempt to add a duplicating behaviour for one service type')
+
+    def get_animation_data(self, role):
+        '''
+        Returns all the data about this behaviour_holder (cube in most cases)
+        that is interesting for a role (component enumeration).
+        :param role:
+        :return: tuples with data
+        '''
+        if not(role in self.behaviours_by_role):
+            return None
+        return  self.behaviours_by_role[role].behaviour_role
 
     def handler_to_service_type(self, service_type):
         '''

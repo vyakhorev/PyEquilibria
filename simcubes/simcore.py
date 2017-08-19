@@ -113,6 +113,9 @@ class cSimSchedule:
                 # are heappuched inside self._heap.
                 an_event.process_step()
                 self._recent_events += [an_event]
+        # Progress time anyway
+        self._now = max(self._now, until_T)
+
         return self._recent_events
 
     def apply_delta_timeunits(self, dt):
@@ -152,6 +155,10 @@ class cAsyncThread:
 
     def __repr__(self):
         return "thread {}".format(self.thread_id)
+
+    def __hash__(self):
+        # this is not obligatory for simulation, but is utilised in animation
+        return hash(self.thread_count)
 
     def get_time(self):
         '''
@@ -264,7 +271,12 @@ class cEvent:
         return self.beh.get_time()
 
     def get_parent_gid(self):
+        # UE4 call
         return self.beh.parent.gid
+
+    def get_behaviour_role(self):
+        # UE4 call, won't work on basic AsyncThread
+        return self.beh.behaviour_role
 
     def process_step(self):
         '''

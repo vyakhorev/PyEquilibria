@@ -22,16 +22,9 @@ if __name__ == "__main__":
     # spawn a blooming grass plane
     level = generate_test_landscape()
     env = start_world_and_return_sim_environment(level)
-    list_of_events = run_simulation_interval(env, 1)
-    for ev_i in list_of_events:
-        print(ev_i.get_parent_gid())
+    ## This is UE4 call:
+    # list_of_events = run_simulation_interval(env, 1)
 
-
-    # activate the threads in the environment
-    # for thr_i in iter_threads_in_holders(level.iter_over_blocks()):
-    #     env.start_a_thread(thr_i)
-    # Start a simulation cycle with batch ticks
-    # Two variants implemented:
-
-    # realtime_batch_simulation_cycle(env, 10)
+    ## Test simulations:
+    realtime_batch_simulation_cycle(env, 10)
     # one_time_simulation(env, 4)
