@@ -22,7 +22,7 @@ class cBehRandomPuassonTick(cSimulBehaviour):
     Basic behaviour for all environments
     '''
 
-    def __init__(self, parent, intensity=1.0):
+    def __init__(self, parent, intensity=5.0):
         '''
         :param parent: block / cube / whatever
         :param intensity: mean time between two ticks
@@ -49,7 +49,7 @@ class cBehBlooming(cBehRandomPuassonTick):
 
     behaviour_role = BehComponentRoles.behBlooming
 
-    def __init__(self, parent, intensity=1.0):
+    def __init__(self, parent, intensity=5.0):
         super().__init__(parent, intensity)
         self.is_active = True
         self.is_blooming = False  # ?make this a state
@@ -70,7 +70,7 @@ class cBehTemperature(cBehRandomPuassonTick):
 
     behaviour_role = BehComponentRoles.behTemperature
 
-    def __init__(self, parent, intensity=1.0):
+    def __init__(self, parent, intensity=5.0):
         super().__init__(parent, intensity)
         self.is_active = True
         # sckewed distribution of temperature
@@ -118,7 +118,7 @@ class cBehBioDivercity(cBehRandomPuassonTick):
 
     behaviour_role = BehComponentRoles.behBiomass
 
-    def __init__(self, parent, intensity=1.0):
+    def __init__(self, parent, intensity=5.0):
         super().__init__(parent, intensity)
         self.is_active = True
         self.bushes = rnd.weibullvariate(1.0, 1.5)

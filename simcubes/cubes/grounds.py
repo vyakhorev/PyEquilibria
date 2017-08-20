@@ -9,37 +9,40 @@ from simcubes.behaviours.eco import cBehBlooming, cBehTemperature, cBehChemicalC
 
 
 class cGrass(cSimCube):
-    cube_type = CubeTypes.blSoil
 
     def init_behaviours(self):
-        self.register_behaviour(cBehBlooming(self, 1.0))
-        self.register_behaviour(cBehTemperature(self, 1.0))
-        self.register_behaviour(cBehChemicalContamination(self))
-        self.register_behaviour(cBehBioDivercity(self, 1.0))
+        self.cube_type = CubeTypes.blSoil
+        self.register_behaviour(cBehBlooming(self, 15.0))
+        # self.register_behaviour(cBehTemperature(self, 1.0))
+        # self.register_behaviour(cBehChemicalContamination(self))
+        # self.register_behaviour(cBehBioDivercity(self, 1.0))
 
 
 class cWater(cSimCube):
-    cube_type = CubeTypes.blWater
 
     def init_behaviours(self):
-        self.register_behaviour(cBehTemperature(self, 1.0))
-        self.register_behaviour(cBehChemicalContamination(self))
-        self.register_behaviour(cBehBioDivercity(self, 1.0))
+        self.cube_type = CubeTypes.blWater
+        # self.register_behaviour(cBehTemperature(self, 1.0))
+        # self.register_behaviour(cBehChemicalContamination(self))
+        # self.register_behaviour(cBehBioDivercity(self, 1.0))
+        pass
 
 
 class cSand(cSimCube):
-    cube_type = CubeTypes.blSand
 
     def init_behaviours(self):
-        self.register_behaviour(cBehTemperature(self, 1.0))
-        self.register_behaviour(cBehChemicalContamination(self))
-        self.register_behaviour(cBehBioDivercity(self, 1.0))
+        self.cube_type = CubeTypes.blSand
+        # self.register_behaviour(cBehTemperature(self, 1.0))
+        # self.register_behaviour(cBehChemicalContamination(self))
+        # self.register_behaviour(cBehBioDivercity(self, 1.0))
+        pass
 
 
 class cRock(cSimCube):
-    cube_type = CubeTypes.blRock
 
     def init_behaviours(self):
-        self.register_behaviour(cBehTemperature(self, 1.0))
-        self.register_behaviour(cBehChemicalContamination(self))
-        self.register_behaviour(cBehBioDivercity(self, 1.0))
+        self.cube_type = CubeTypes.blRock
+        # self.register_behaviour(cBehTemperature(self, 1.0))
+        # self.register_behaviour(cBehChemicalContamination(self))
+        # self.register_behaviour(cBehBioDivercity(self, 1.0))
+        pass

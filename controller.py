@@ -29,8 +29,6 @@ class cSimulationController:
     2) (if needed)  schedule_update_animation_query()
     3) run_simulation_interval()
     4) (if needed)  iterate_over_animation_updates()
-
-
     '''
 
     def __init__(self):
@@ -65,7 +63,7 @@ class cSimulationController:
         1-3 simulation ticks before getting data from it).
         '''
         self.animation_updates_queries = set()
-        self.animation_updates_queries_efficient = set()
+        self.animation_updates_queries_efficient = set()  # may be inefficient )))
         self.animation_updates = {}
 
     def schedule_update_animation_query(self, entity_gid = None, role = None):
@@ -117,6 +115,19 @@ class cSimulationController:
         self.next_animation_tick()
 
     ###
+    # Entity presense updates
+    ###
+
+    def iterate_over_blocks(self):
+        '''
+        Just an iterator over game blocks
+        :return: generator of blocks
+        '''
+        # todo: active chunk only
+        for bl_i in self.world.iter_over_blocks():
+            yield bl_i
+
+    ###
     # World generation
     ###
 
@@ -130,13 +141,15 @@ class cSimulationController:
             self.env.start_a_thread(thr_i)
             # this will result in returning current states of all the cubes
 
-    def run_simulation_interval(self, timeunits):
+    def run_simulation_interval(self, timeunits, schedule_updates=False):
         '''
         Advance simulation futher and return events happened so that
         unreal engine can decide whether or not to transfer data
         about current state of each cube.
         :param env: cSimEnvironment instance
         :param timeunits: a float that describes simulation speed
+        :param schedule_updates: shall plan to send update data to
+                the game about each cube in the happened events.
         :return: a list of animated events
         '''
         # do the simulation tick
@@ -146,27 +159,14 @@ class cSimulationController:
         # greedy animation tactics: plan updates for all the events
         # (so that, UE4 shall receive all the updates). This is a
         # temporary solution, we can do better later.
-        for ev_i in events_happend:
-            self.schedule_update_animation_query_efficient(ev_i.beh)
+        # this slows down simulation...
+        if schedule_updates:
+            for ev_i in events_happend:
+                self.schedule_update_animation_query_efficient(ev_i.beh)
 
         return events_happend
 
 
-if __name__ == '__main__':
-    T = 1
-    dt = 0.01
-
-    the_controller = cSimulationController()
-    the_controller.generate_world()
-
-    for t in range(0, T):
-        print("-tick-"*10)
-        new_events = the_controller.run_simulation_interval(dt)
-        print("t={}  Events to animate {}".format(t, len(new_events)))
-        for gid, role, update_data in the_controller.iterate_over_animation_updates():
-            print("update of cube {} component role {} update data: {}".format(gid, role, update_data))
-
-        print("-tock-" * 10)
 
 
 

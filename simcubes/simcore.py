@@ -104,7 +104,20 @@ class cSimSchedule:
         # There can be a lot of additional things here - like events cancellations
 
         self._recent_events = []  # free the references
-        while self.peek_next_timestamp() <= until_T:
+
+        try:
+            have_recent_events = (self.peek_next_timestamp() <= until_T)
+        except IndexError:
+            # no events case
+            have_recent_events = False
+
+        while have_recent_events:
+            try:
+                have_recent_events = (self.peek_next_timestamp() <= until_T)
+            except IndexError:
+                # no events case
+                have_recent_events = False
+
             self._now, P, an_event = heappop(self._heap)
             #logger.info("Simulation time is incremented up to " + str(self._now))
             if not an_event.cancelled:
