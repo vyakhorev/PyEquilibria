@@ -131,17 +131,24 @@ class cSimulationController:
     # World generation
     ###
 
-    def generate_world(self):
+    def generate_world(self, schedule_updates=True):
         '''
         Generates the world and starts the asycnh threads in it.
         '''
-        self.world = generate_test_landscape()
+        self.world = generate_test_landscape(15)
         for thr_i in iter_threads_in_holders(self.world.iter_over_blocks()):
             # this starts simulation
             self.env.start_a_thread(thr_i)
             # this will result in returning current states of all the cubes
+        # Schedule initial updates so that we have actual data in game.
+        # This is a temporary solution. A better solution would be to ask
+        # for data explicitly.
+        if schedule_updates:
+            for thr_i in iter_threads_in_holders(self.world.iter_over_blocks()):
+                self.schedule_update_animation_query_efficient(thr_i)
 
-    def run_simulation_interval(self, timeunits, schedule_updates=False):
+
+    def run_simulation_interval(self, timeunits, schedule_updates=True):
         '''
         Advance simulation futher and return events happened so that
         unreal engine can decide whether or not to transfer data

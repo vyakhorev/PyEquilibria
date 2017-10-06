@@ -52,7 +52,7 @@ class cBehBlooming(cBehRandomPuassonTick):
     def __init__(self, parent, intensity=5.0):
         super().__init__(parent, intensity)
         self.is_active = True
-        self.is_blooming = False  # ?make this a state
+        self.is_blooming = rnd.choice([True, False])
 
     def get_animation_data(self):
         # Unreal engine is reponsible for unrestanding the order
@@ -75,14 +75,14 @@ class cBehTemperature(cBehRandomPuassonTick):
         self.is_active = True
         # sckewed distribution of temperature
         self.av_temp = rnd.weibullvariate(1.0, 1.5)
-        self.cur_temp = self.av_temp
+        self.current_temperature = self.av_temp
         self.sigma = 0.1
 
     def get_animation_data(self):
-        return self.cur_temp
+        return self.current_temperature
 
     def do_tick(self):
-        self.cur_temp += rnd.normalvariate(self.av_temp - self.cur_temp, self.sigma)
+        self.current_temperature += rnd.normalvariate(self.av_temp - self.current_temperature, self.sigma)
 
 
 class cBehChemicalContamination(cBehRandomPuassonTick):

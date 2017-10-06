@@ -27,13 +27,12 @@ def generate_grass_plain(N=10, M=10, H=1):
 
     return TheWorld
 
-def generate_test_landscape():
+
+def generate_test_landscape(SIZE = 15):
     TheWorld = cSimWorld()
     TheWorld.set_active_chunk(1)
 
     counter = 1
-
-    SIZE = 50
 
     hmp = cDiamondSquareHeightMap(SIZE, SIZE)
     hmp.generate_heights()
