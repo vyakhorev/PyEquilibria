@@ -1,11 +1,12 @@
 
 
+# This is a third test with git - now console in action!
+
+
 from simcubes.behaviours.basebehaviour import iter_threads_in_holders
 from simcubes.simcore import cSimEnvironment
 
 from levelgenerator.plain import generate_test_landscape
-
-#Test
 
 class cSimulationController:
     '''
