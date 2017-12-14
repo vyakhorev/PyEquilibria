@@ -5,8 +5,6 @@ Test the simulation calls
 
 # TODO: we need better tests, asyncio would be helpful
 
-"Change in main to be commited and reverted after another commit"
-
 import logging
 
 logger = logging.getLogger(__name__)
