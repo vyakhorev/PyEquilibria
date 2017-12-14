@@ -8,6 +8,8 @@ from simcubes.simcore import cSimEnvironment
 
 from levelgenerator.plain import generate_test_landscape
 
+"Another commit to be done"
+
 class cSimulationController:
     '''
     Receives commands and executes them. This is how one should manage the simulation.
