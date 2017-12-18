@@ -2,10 +2,17 @@
 
 # this should be in test branch
 
+# This is a third test with git - now console in action!
+# Added something to check status
+
+
 from simcubes.behaviours.basebehaviour import iter_threads_in_holders
 from simcubes.simcore import cSimEnvironment
 
 from levelgenerator.plain import generate_test_landscape
+
+
+"Another commit to be done"
 
 
 class cSimulationController:
