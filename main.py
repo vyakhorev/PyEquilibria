@@ -5,6 +5,8 @@ Test the simulation calls
 
 # TODO: we need better tests, asyncio would be helpful
 
+# Some test line for git check.
+
 import logging
 
 logger = logging.getLogger(__name__)
